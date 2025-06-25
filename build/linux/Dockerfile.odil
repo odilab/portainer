@@ -1,0 +1,70 @@
+# Alpine Version - Vollständig
+#FROM node:20.19-alpine AS builder
+FROM node:lts-alpine AS builder
+
+RUN apk update && apk upgrade
+
+ARG GO_VERSION=1.24.4
+
+RUN apk add --no-cache \
+    bash \
+    git \
+    make \
+    go \
+    build-base \
+    jq \
+    curl \
+    wget \
+    tar
+
+RUN wget "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" && \
+    tar -C /usr/local -xzf "go${GO_VERSION}.linux-amd64.tar.gz" && \
+    rm "go${GO_VERSION}.linux-amd64.tar.gz"    
+
+ENV PATH="/usr/local/go/bin:${PATH}"
+RUN npm install -g npm@11.4.2
+RUN yarn set version latest
+
+WORKDIR /portainer
+
+COPY package.json .
+RUN npm install --omit=dev --force
+RUN npm ci --omit=dev && npm cache clean --force
+
+COPY . .
+# Git-Repository reparieren falls nötig
+RUN git status || (git init . && git add . && git commit -m "Docker build")
+RUN yarn install 
+RUN npm run build
+# Frontend und Backend bauen
+RUN make build-client
+#RUN yarn install
+RUN make build-server
+RUN make build-storybook
+
+RUN yarn cache clean
+#RUN ls -l /portainer/dist
+#RUN ls -l /portainer/app
+#RUN ls -l /portainer
+
+FROM alpine:latest
+
+RUN apk update && apk upgrade
+RUN apk add --no-cache ca-certificates
+
+WORKDIR / 
+
+COPY --from=builder /portainer/dist/portainer /portainer
+COPY --from=builder /portainer/dist/public /public
+COPY --from=builder /portainer/dist/mustache-templates /mustache-templates/
+COPY --from=builder /portainer/build/docker-extension /docker-extension
+
+# storybook exists only in portainerci builds
+COPY --from=builder /portainer/dist/storybook* /storybook/
+
+
+EXPOSE 9000
+EXPOSE 9443  
+EXPOSE 8000
+
+CMD ["/portainer"]

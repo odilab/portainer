@@ -1,5 +1,11 @@
-*
-!dist
-!build
-!metadata.json
-!docker-extension/build
+# *
+# !dist
+# !build
+# !metadata.json
+# !docker-extension/build
+.github/
+README.md
+#yarn.lock
+node_modules/
+.vscode
+docker-compose.yml

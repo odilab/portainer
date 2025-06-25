@@ -1,0 +1,21 @@
+services:
+  portainer:
+    image: portainer:bugfix
+    container_name: portainer
+    environment:
+      - TZ=Europe/Berlin
+    ports:
+      - 9443:9443
+      - 9000:9000
+    volumes:
+        - portainer_data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      - monitoring
+volumes:
+  portainer_data:
+    name: portainer_data
+    external: true
+networks:
+  monitoring:

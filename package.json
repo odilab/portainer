@@ -26,8 +26,8 @@
     "sb": "yarn storybook",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build -o ./dist/storybook",
-    "analyze-webpack": "webpack --config ./webpack/webpack.analyze.js",
-    "prepare": "cd ../.. && husky install package/server-ce/.husky"
+    "analyze-webpack": "webpack --config ./webpack/webpack.analyze.js"
+    
   },
   "engines": {
     "node": ">= 16"
@@ -220,7 +220,7 @@
     "swagger2openapi": "^7.0.8",
     "tailwindcss": "3.3.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "typescript": "^5.5.2",
+    "typescript": "^5.2.2",
     "undici": "^6.2.1",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.3.1",
