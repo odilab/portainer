@@ -28,6 +28,10 @@ RUN yarn set version latest
 
 WORKDIR /portainer
 
+RUN mkdir -p ~/.ssh && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
+    chmod 600 ~/.ssh/known_hosts
+
 COPY package.json .
 RUN npm install --omit=dev --force
 RUN npm ci --omit=dev && npm cache clean --force
