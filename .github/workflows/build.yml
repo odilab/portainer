@@ -1,6 +1,7 @@
 name: Build and Deploy Portainer Docker Image
 on:
-  workflow_dispatch:
+    push:
+    workflow_dispatch:
 
 jobs:
   build:
