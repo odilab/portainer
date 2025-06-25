@@ -15,6 +15,7 @@ RUN apk add --no-cache \
     jq \
     curl \
     wget \
+    openssh-client \
     tar
 
 RUN wget "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" && \
