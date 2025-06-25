@@ -25,6 +25,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
            context: .
+           file: $GITHUB_WORKSPACE/build/linux/Dockerfile.odil
            platforms: linux/amd64
            push: true
            tags: "${{ vars.PORTAINER_IMAGE }}"
