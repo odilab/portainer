@@ -5,7 +5,7 @@
 # !docker-extension/build
 .github/
 README.md
-#yarn.lock
-node_modules/
+yarn.lock
+#node_modules/
 .vscode
 docker-compose.yml
