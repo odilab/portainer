@@ -25,14 +25,8 @@ RUN wget "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" && \
 ENV PATH="/usr/local/go/bin:${PATH}"
 RUN npm install -g npm@11.4.2
 RUN yarn set version latest
-RUN yarn config set "enableTelemetry" false && \
-    yarn config set "git.https" true
 
 WORKDIR /portainer
-
-RUN mkdir -p ~/.ssh && \
-    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
-    chmod 600 ~/.ssh/known_hosts
 
 COPY package.json .
 RUN npm install --omit=dev --force
