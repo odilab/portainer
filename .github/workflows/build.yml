@@ -48,7 +48,7 @@ jobs:
     - name: SSH and run commands on remote server
       uses: appleboy/ssh-action@master      
       with:
-        host: "${{ env.SERVER_IP }}" # Die zuvor ausgewählte Server-IP
+        host: "${{ vars.SERVER_IP }}" # Die zuvor ausgewählte Server-IP
         username: root # Der Benutzername für den SSH-Login
         key: "${{ secrets.SSH_PRIVATE_KEY_ERP_DEV }}" # Das private SSH-Schlüssel-Geheimnis
         port: 22 # Optional: Der SSH-Port (Standard ist 22)
